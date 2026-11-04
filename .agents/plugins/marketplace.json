@@ -1,0 +1,20 @@
+{
+  "name": "sheetxl",
+  "interface": {
+    "displayName": "SheetXL"
+  },
+  "plugins": [
+    {
+      "name": "sheetxl",
+      "source": {
+        "source": "local",
+        "path": "./plugins/sheetxl"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}

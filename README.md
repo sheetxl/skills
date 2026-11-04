@@ -17,6 +17,23 @@ npx -y skills add sheetxl/skills -g --all
 Copies `SKILL.md` and `references/` into your agent's skill directories.
 `npx skills update` refreshes them.
 
+### Plugin — the skill and the MCP server together
+
+For Claude Code and Codex, the `sheetxl` plugin installs this skill with the SheetXL MCP
+server, at the same version:
+
+```bash
+# Claude Code
+claude plugin marketplace add sheetxl/skills
+claude plugin install sheetxl@sheetxl
+
+# Codex
+codex plugin marketplace add sheetxl/skills
+codex plugin add sheetxl@sheetxl
+```
+
+The MCP server works with any MCP client on its own: `npx -y @sheetxl/mcp`.
+
 The SheetXL MCP server (`@sheetxl/mcp`) depends on this package and serves it to clients
 as `sheetxl://skills/*` resources, so a copy released with the engine lands beside it.
 

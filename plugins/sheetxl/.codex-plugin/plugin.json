@@ -1,0 +1,26 @@
+{
+  "name": "sheetxl",
+  "version": "0.8.0-beta.15",
+  "description": "SheetXL for Codex: read, query, audit and edit .xlsx, .sxl and .csv workbooks through the SheetXL MCP server, with the sheetxl skill.",
+  "author": {
+    "name": "SheetXL",
+    "url": "https://www.sheetxl.com"
+  },
+  "homepage": "https://www.sheetxl.com",
+  "repository": "https://github.com/sheetxl/skills",
+  "keywords": ["spreadsheet", "xlsx", "excel", "csv", "formulas", "mcp", "sheetxl"],
+  "mcpServers": "./.mcp.json",
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "SheetXL",
+    "shortDescription": "Read, query, audit and edit spreadsheets",
+    "longDescription": "SheetXL is an Excel-grade spreadsheet engine built for agents. Query a workbook like a database instead of pulling cells into context, and run TypeScript inside the calculation engine to build, check and fix formula models. Bundles the SheetXL MCP server and the sheetxl skill.",
+    "developerName": "SheetXL",
+    "category": "Productivity",
+    "capabilities": ["Interactive", "Read", "Write"],
+    "websiteURL": "https://www.sheetxl.com",
+    "defaultPrompt": [
+      "Open this workbook with SheetXL, describe its structure, and check it for formula errors."
+    ]
+  }
+}

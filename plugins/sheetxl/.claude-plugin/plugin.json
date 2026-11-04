@@ -1,0 +1,19 @@
+{
+  "name": "sheetxl",
+  "version": "0.8.0-beta.15",
+  "description": "SheetXL for Claude Code: read, query, audit and edit .xlsx, .sxl and .csv workbooks through the SheetXL MCP server, with the sheetxl skill.",
+  "author": {
+    "name": "SheetXL",
+    "url": "https://www.sheetxl.com"
+  },
+  "homepage": "https://www.sheetxl.com",
+  "repository": "https://github.com/sheetxl/skills",
+  "keywords": ["spreadsheet", "xlsx", "excel", "csv", "formulas", "mcp", "sheetxl"],
+  "mcpServers": {
+    "sheetxl": {
+      "command": "npx",
+      "args": ["-y", "@sheetxl/mcp@0.8.0-beta.15"]
+    }
+  },
+  "skills": "./skills/"
+}
