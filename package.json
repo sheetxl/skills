@@ -1,0 +1,34 @@
+{
+  "name": "@sheetxl/skills",
+  "version": "0.8.0-beta.14",
+  "description": "Agent-facing skills and reference documentation for SheetXL, version-matched to the engine that executes agent code.",
+  "homepage": "https://sheetxl.com",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sheetxl/sheetxl.git"
+  },
+  "bugs": {
+    "url": "https://github.com/sheetxl/sheetxl/issues"
+  },
+  "license": "MIT",
+  "type": "module",
+  "exports": {
+    "./SKILL.md": "./SKILL.md",
+    "./references/*": "./references/*",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "SKILL.md",
+    "references",
+    "README.md",
+    "LICENSE.md"
+  ],
+  "keywords": [
+    "sheetxl",
+    "spreadsheet",
+    "agent",
+    "skills",
+    "mcp",
+    "llm"
+  ]
+}
