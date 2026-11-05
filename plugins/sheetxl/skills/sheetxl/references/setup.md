@@ -1,15 +1,15 @@
 ---
 name: setup
-description: "Fallback install instructions for when SheetXL is not available and `sheetxl info` cannot run — bootstrap requirements (Node), per-client MCP registration, the VS Code extension, and skills installation. The primary setup path is always `npx -y sheetxl setup`; use this reference only when no SheetXL surface can run in this environment."
+description: "Fallback install instructions for when SheetXL is not available and `sheetxl info` cannot run — bootstrap requirements (Node), per-client MCP registration, the VS Code extension, and skills installation. The primary path is `npx -y sheetxl setup agent`; use this reference only when no SheetXL surface can run in this environment."
 ---
 
 # Setup — Fallback Instructions
 
 > Part of the SheetXL skill suite. The **primary** setup path is dynamic:
-> `npx -y sheetxl setup` detects the environment and converges it with consent at
-> each step, and `npx -y sheetxl info` reports what is missing. Use this reference
-> only when neither can run here (no shell, or no Node yet) — its job is to give
-> the human the instructions to run elsewhere.
+> `npx -y sheetxl setup agent` prints the registration for each client and which
+> are registered already, and `npx -y sheetxl info` reports what is missing. Use
+> this reference only when neither can run here (no shell, or no Node yet) — its
+> job is to give the human the instructions to run elsewhere.
 
 ## Requirements
 
@@ -21,12 +21,12 @@ description: "Fallback install instructions for when SheetXL is not available an
 Have the user run in any terminal:
 
 ```bash
-npx -y sheetxl setup
+npx -y sheetxl setup agent
 ```
 
-It installs the skills, ensures the engine, registers the MCP server for detected
-clients, and offers the VS Code extension — asking consent at each install
-boundary. Re-running is always safe: already-converged steps are no-ops.
+It prints the commands for each client — the plugin for Claude Code and Codex, the
+MCP server alone, the VS Code extension — and lists the clients already
+registered. It installs nothing; run the lines it prints, with the user's consent.
 
 ## Manual steps (when the one-command path is unavailable)
 
@@ -48,11 +48,14 @@ npm install -g sheetxl         # or: global install
 
 **MCP server** (sessions, audited edits, undo — and human detection):
 
-- Claude Code: `claude mcp add sheetxl -- npx -y sheetxl mcp`
+- Claude Code or Codex: the `sheetxl` plugin carries the server and this skill —
+  `claude plugin marketplace add sheetxl/skills` then `claude plugin install sheetxl@sheetxl`
+  (Codex: `codex plugin marketplace add sheetxl/skills`, `codex plugin add sheetxl@sheetxl`).
+  The server alone: `claude mcp add sheetxl -- npx -y @sheetxl/mcp`
 - Other clients: add to the client's MCP configuration:
 
   ```json
-  { "command": "npx", "args": ["-y", "sheetxl", "mcp"] }
+  { "command": "npx", "args": ["-y", "@sheetxl/mcp"] }
   ```
 
 - Newly registered servers usually attach at the next session — say so, and do

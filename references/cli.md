@@ -16,7 +16,7 @@ Interactive sessions · Composition
 |---|---|
 | `sheetxl [options] [workbook]` | The main event: execute SDK TypeScript against a workbook — including every structured question. Return `getRegions()`, `getStats()`, a range, and the report renders. With no code, an interactive session. |
 | `sheetxl info` | Read-only environment report: versions, skills, MCP status. Once per session. |
-| `sheetxl setup` | Converge the environment (skills, engine, MCP registration) — consent at each step. |
+| `sheetxl setup agent` | Print how to register the MCP server and skill with each agent client, and which are registered already. Changes nothing. |
 | `sheetxl grep <pattern>` | Find cells by content or pattern. |
 | `sheetxl compile <files…>` | Typecheck (and optionally emit) without executing. |
 
