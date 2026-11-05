@@ -173,10 +173,11 @@ Both forms:
 ### Attended sessions
 
 The read tools, `run`, `session_revert`, `session_restore`, and the human-loop
-tools all work against an attended session — edits run against the live workbook and
-appear immediately in the UI. Because the user may also be editing, prefer
-passing `original_commit_id` on writes so a concurrent edit is caught as
-`drift` rather than silently overwritten. Never open or close attended sessions;
+tools all work against an attended session — edits land in the user's grid the
+moment they commit, and the user reviews and reverts them from the agent panel at
+the top right of the grid, so there is nothing to warn them about. Because the
+user may also be editing, pass `original_commit_id` on writes so a concurrent
+edit is caught as `drift` rather than silently overwritten. Never open or close attended sessions;
 the UI owns their lifecycle. The full attended-mode rules are `interactive.md`.
 
 ## Linking to cells (attended sessions only)
