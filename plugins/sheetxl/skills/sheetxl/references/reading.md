@@ -50,6 +50,7 @@ This is the whole read surface. Nothing below adds a call; it explains these.
 | defined names | `wb.getNames()` · `sheet.getNames()` for one sheet's view · `.getByName('TaxRate')` for one | the roster: target, dependents, validity — broken first, then load-bearing. One name renders as a formula report |
 | table | `sheet.getTables().getByName('Sales')` · `range.getTables()` for the ones a range touches | one table — its range, header, style and columns. The **collection** does not render; the sheet report's `Tables` section is the listing |
 | conditional format | `range.getConditionalFormats()` | one rule — its anchor, evaluation order, predicate (or color scale / data bar / icon set) and the format it paints |
+| sparklines | `range.getSparklineGroups()` · `cell.getSparkline()` · `range.getRegions('sparklines')` | a small chart drawn over a cell, not its value — its cell is usually **empty**. A group shares one type and set of marks; `group.getRanges()` are its cells, `group.getDataRanges()` the cells each range draws. The cell report states `Sparkline: line of A3:E3 · group F2:F4 · high, low`; the sheet report has a `Sparkline` section. That section, `Conditionals` and `DataValidations` list over the whole sheet: a layer over empty cells is outside the used range, and is still reported |
 | data validation | `range.getDataValidations()` | one rule — its anchor, predicate, **the values a list admits**, whether blanks pass, and whether a bad entry is refused or merely flagged |
 | protection | `sheet.getProtection()` · `wb.getProtection()` · `sheet.getProtectedRanges()` for the unlocked ranges | whether it is locked (and behind a password), and the operations it still **allows** — anything not listed is refused. Reported only where it is in force: a protected sheet is marked `(protected)` and carries a `protected` line on the workbook report, a `Protection` section on its own (the editable regions, each with why), a `Protection:` first line on a range report and an `Editable:` fact on a cell. An unprotected sheet says nothing (`writing.md` §"Protected sheets") |
 | movable | `sheet.getMovables().getItems()` · `range.getMovables()` for the ones over a range · `{ type: 'chart' }` to filter | the floating layer — pictures, charts, shapes, slicers. One movable renders its name, type, preset, text, alt text, anchor and bounds — and for a chart its type, title, series and axes: the ranges it plots (`chart.getSeries()` states each as a formula), and the axis titles, which are often the only place units are written down. The listing is the sheet report's per-type sections — `Charts`, `Shapes`, `Pictures`, `Slicers` |
@@ -412,7 +413,7 @@ features at once is the cross-product, see above):
 | audit | `anomalies` | what breaks the pattern around it? — derived from the other partitions, never authored; a region is a run of cells with the same finding and evidence |
 
 Outside the categories: **`contentful`** (the default — contiguous blocks of data),
-`merge`, `dataValidations`, `hyperlink`, `comments`, and `unlock` — the cells that
+`merge`, `dataValidations`, `hyperlink`, `comments`, `sparkline`, and `unlock` — the cells that
 still take a write on a protected sheet. `unlock` has no section on a sheet report:
 it is the body of the `Protection` section, which prints only when the sheet is
 protected.

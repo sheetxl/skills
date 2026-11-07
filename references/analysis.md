@@ -138,6 +138,8 @@ The checks, as the report names them:
 | `typed number equals an unread input` | a number typed into a formula that equals an input cell nothing reads (`0.21` where Tax rate holds `0.21`) | the reference it replaced: the input the line names |
 | `differs from its twin formulas` | formulas of the same shape that divide by `12` here and `365` there, or add a term the others take away | which side the business meant; the line names a twin |
 | `off the scale of its format` | a typed percent a hundred times its siblings (`30` for 30%) | the unit it was typed in |
+| `input nothing reads` | a typed number beside a label that no formula on any sheet reads (`Tax rate 21%` with no tax line) | in a model being built, the item still to build; in a finished one, a dead assumption or a formula that typed its value |
+| `gap in a labeled row` | a labeled row empty where the rows above and below are filled, or empty in some of their columns | the line left out, or its missing period; `label font differs` marks a heading, which is empty by design |
 | `constant` (the `Constants` section) | a constant typed into a formula, with its uses of the workbook's | a constant typed once where the model types another everywhere |
 | `<layer> format break` | an authored font, fill, number format or alignment thin against its run | with `also changes`, structure; alone, a cell someone touched |
 | `<part> format is another role's` | a link, same-sheet reference or calculation colored as the sheet colors another role | the color convention, per sheet: the majority is the rule |
