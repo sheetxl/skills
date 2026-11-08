@@ -219,20 +219,21 @@ This is the **only** way a function should access the host runtime. Reaching out
 sandbox contract.
 
 ```typescript
-import { FormulaContext } from '@sheetxl/primitives';
+import { FormulaContext, type Volatile } from '@sheetxl/primitives';
 
-export function NOW(): number {
-  FormulaContext.markVolatile();
+export function NOW(): Volatile<number> {
   FormulaContext.formatResults('Short DateTime');
   return FormulaContext.getNow();   // deterministic, session-scoped time
 }
 ```
 
+A function that must recalculate every cycle (`RAND`, `NOW`, `TODAY`) declares it on the return
+type with `Volatile<T>`.
+
 ### Method reference
 
 | Method | Purpose |
 |---|---|
-| `FormulaContext.markVolatile()` | Recalculate every cycle: `RAND`, `NOW`, `TODAY` |
 | `FormulaContext.getNow()` | Current time as a serial date — deterministic and session-scoped. Never call `Date.now()` directly |
 | `FormulaContext.getRandom()` | A draw in `[0, 1)` — the runtime's source, which a host can seed (a seeded draw is keyed by cell and pass, so take draws where they are used). Never call `Math.random()` directly |
 | `FormulaContext.getEntireCoords()` | Destination cell bounds for array functions (e.g. `SEQUENCE`) |
