@@ -9,7 +9,7 @@ description: "SheetXL sheet interaction: reading and writing cell values, naviga
 > is run-context code (`scripting.md`): snippet form — no `await`, and nothing to
 > import (the context is already in scope); every statement auto-awaits. Files
 > open via the workbook argument and save via `--save` (CLI) or sessions
-> (MCP); application code goes through `embedding.md`. To understand structure
+> (MCP); application code goes through `node-app.md` or `react-app.md`. To understand structure
 > first, see `reading.md`.
 
 **In this file:** Coordinates: two notations · Values: two entry modes (write

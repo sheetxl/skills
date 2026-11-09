@@ -53,7 +53,7 @@ wb.getWorksheet().evaluate('=DOUBLE(21)')   // 42
 ```
 
 In application code, providers can also be passed at construction
-(`new Workbook({ functions: [...] })`) — see `embedding.md`. Either way the
+(`new Workbook({ functions: [...] })`) — see `node-app.md`. Either way the
 authoring rules below are identical.
 
 ---

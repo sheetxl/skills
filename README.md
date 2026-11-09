@@ -54,7 +54,8 @@ point routes, the references answer.
 | `cli.md` | terminal commands: flags, chaining, the REPL |
 | `sessions.md` | stateful work: commits, history, undo, forking and what-ifs, saving |
 | `scripting.md` | writing the code you hand to `run` |
-| `embedding.md` | building an application with SheetXL |
+| `react-app.md` | a React app with the grid in it: Studio, WorkbookElement, create-sheetxl |
+| `node-app.md` | a Node program or service on the SDK; packages, file IO, runner scripts |
 | `udf.md` | authoring formula functions |
 | `showcase.md` | demonstrating what SheetXL can do |
 | `setup.md` | SheetXL is not installed and `info` cannot run |

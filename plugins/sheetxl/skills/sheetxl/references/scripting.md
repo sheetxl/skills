@@ -192,7 +192,7 @@ formula functions see `udf.md`.
 
 Some tasks exceed the run context — e.g. operating on two workbooks at once.
 The next rung is a standalone program written against `@sheetxl/sdk` with real
-imports: see [embedding](embedding.md). Building the user's application is the same path.
+imports: see [node-app](node-app.md). Building the user's application is the same path.
 Under `run`, none of that applies — the workbook is handed to you, and a blank
 one is what you get by omitting the workbook argument; constructing your own is
 basically never right.
