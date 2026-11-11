@@ -1,6 +1,6 @@
 {
   "name": "sheetxl",
-  "version": "0.8.0-beta.22",
+  "version": "0.8.0-beta.23",
   "description": "SheetXL for Codex: read, query, audit and edit .xlsx, .sxl and .csv workbooks through the SheetXL MCP server, with the sheetxl skill.",
   "author": {
     "name": "SheetXL",
