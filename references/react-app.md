@@ -159,7 +159,7 @@ feed Studio's palette derivations, so an `app` value does not flatten the
 header and grid.
 
 Every token, the corner-mark classes and Studio's options:
-https://www.sheetxl.com/docs/guides/concepts/theming
+https://www.sheetxl.com/docs/guides/how-tos/theme-the-spreadsheet
 
 **Done when** the grid's backdrop, headers, gridlines and frame match the
 surrounding card in both modes.
