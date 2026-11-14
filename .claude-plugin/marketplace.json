@@ -1,6 +1,6 @@
 {
   "name": "sheetxl",
-  "description": "SheetXL — an Excel-grade spreadsheet engine built for agents.",
+  "description": "SheetXL — an Excel-grade spreadsheet built for agents and developers.",
   "owner": {
     "name": "SheetXL",
     "url": "https://www.sheetxl.com"
@@ -8,9 +8,9 @@
   "plugins": [
     {
       "name": "sheetxl",
-      "description": "Read, query, audit and edit .xlsx, .sxl and .csv workbooks through the SheetXL MCP server, with the sheetxl skill.",
+      "description": "Read, query, build and check .xlsx, .sxl and .csv workbooks through the SheetXL MCP server, with the sheetxl skill.",
       "source": "./plugins/sheetxl",
-      "version": "1.0.3",
+      "version": "1.0.4",
       "keywords": ["spreadsheet", "xlsx", "excel", "csv", "formulas", "mcp", "sheetxl"]
     }
   ]

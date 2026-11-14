@@ -1,7 +1,7 @@
 <!-- markdownlint-disable -->
 # @sheetxl/skills
 
-Agent skills for **SheetXL** — an Excel-grade spreadsheet engine built for agents.
+Agent skills for **SheetXL** — an Excel-grade spreadsheet built for agents and developers.
 
 They teach an agent to read, query, audit and edit `.xlsx`, `.sxl` and `.csv` workbooks:
 query a workbook like a database rather than pulling cells into context, execute
