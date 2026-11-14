@@ -1,6 +1,6 @@
 {
   "name": "@sheetxl/skills",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Agent-facing skills and reference documentation for SheetXL, version-matched to the engine that executes agent code.",
   "homepage": "https://sheetxl.com",
   "repository": {

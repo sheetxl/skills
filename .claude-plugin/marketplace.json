@@ -10,7 +10,7 @@
       "name": "sheetxl",
       "description": "Read, query, build and check .xlsx, .sxl and .csv workbooks through the SheetXL MCP server, with the sheetxl skill.",
       "source": "./plugins/sheetxl",
-      "version": "1.0.4",
+      "version": "1.0.5",
       "keywords": ["spreadsheet", "xlsx", "excel", "csv", "formulas", "mcp", "sheetxl"]
     }
   ]

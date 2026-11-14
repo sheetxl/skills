@@ -1,6 +1,6 @@
 {
   "name": "sheetxl",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "SheetXL for Codex: read, query, build and check .xlsx, .sxl and .csv workbooks through the SheetXL MCP server, with the sheetxl skill.",
   "author": {
     "name": "SheetXL",
