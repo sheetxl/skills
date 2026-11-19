@@ -5,7 +5,7 @@ description: "Audit and repair a workbook — find what is wrong and prove you f
 
 # Analysis — Audit and Repair
 
-> Part of the SheetXL skill suite. See the root `SKILL.md` for routing,
+> Part of the SheetXL skills. Routing is the `sheetxl` skill's `SKILL.md`,
 > `reading.md` for the read surface this builds on, and `writing.md` for making
 > the change. Code below is run-context code (`scripting.md`): snippet form — no
 > `await`, nothing to import.
@@ -15,6 +15,18 @@ Silent — the shape sweep · Re-partition on the convention's dimension · Sibl
 · Trace to the root · The blast radius · Fix at the root · Verify ·
 Finding nothing · Reading values — the cheapest rung · The order, end to end ·
 Attended workbooks
+
+**A targeted fix reads only its section.** The full method below is for an audit, or
+for "something is wrong" with no address. When the task already names its target,
+start where it points and skip the sweep:
+
+| The task | Read |
+|---|---|
+| one named cell shows an error ("why is D10 `#REF!`?") | take the error count first (Loud, one line) → Trace to the root → the blast radius → Fix at the root → Verify |
+| one named cell computes the wrong number | Trace to the root (read its formula and precedents), then Verify |
+| make a format, color or formula consistent across a block ("the currency columns don't match") | Re-partition on the convention's dimension (its row in the catalogue) → the write in [writing](writing.md) §Styling → Verify |
+| every error in the workbook | Loud (the count is your baseline) → Trace to the root → Verify |
+| "is this right?", "audit", "review", no address | all of it, in The order, end to end |
 
 A spreadsheet with no errors is not a spreadsheet with no bugs. `#REF!` and
 `#DIV/0!` are the defects that announce themselves; the expensive ones are
@@ -264,6 +276,12 @@ partition rather than its breaks:
 | inputs unlocked, formulas locked (a protected form) | `formula` × `unlock` | a formula inside an editable region — a user can type over the model; or an input cell that is not in the `unlock` partition and cannot be filled in |
 | nothing here should be an error | `error` | the partition exists at all — it groups by error value |
 
+**Which side is right.** A partition shows the break, not which value is the rule.
+The rule is the value most of the block carries — the large region — and the small
+regions are the outliers to change. When the two sides are close in size, or the
+minority is the one a label or a sibling sheet agrees with, the majority is not the
+evidence: say what you found and ask.
+
 Two shapes, and both are readable at a glance: **a hole** (the feature is absent
 where it should be) and **a one-cell region** (the feature is present but
 different). Everything in the table is one of the two.
@@ -346,6 +364,24 @@ function that does not exist — the two silent `#NAME?` causes), its indexed
 references and its tokens. Reach for it when the *text* is the suspect and the
 value alone did not say why. What it does not carry is the graph — precedents and
 dependents live on the cell and the range, which is why the cell comes first.
+
+### When the root is a `#REF!` in the formula text
+
+A `#REF!` written *into* a formula (`=SUM(#REF!)`, `=B4*#REF!`) means the cells it
+pointed at were deleted; the formula no longer holds the address, so reading it
+cannot recover it. Recover it from evidence, in this order:
+
+1. **Its twins.** A formula filled down a row or column has neighbors with the
+   same shape. The anomalies read flags the break (`differs from its twin
+   formulas`); the twin one row over shows what this one said, shifted by one.
+2. **A sibling sheet** with the same layout (another month, another entity)
+   carries the same formula intact.
+3. **The labels.** The row and column headers say what the line computes
+   (`Total revenue` is the sum of the revenue lines above it).
+
+Rewrite the formula from that evidence and say which evidence you used. When none
+of the three settles it, do not guess: report the cell and what it would need,
+and ask.
 
 ## Before you edit — the blast radius
 

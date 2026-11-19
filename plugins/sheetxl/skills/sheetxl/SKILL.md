@@ -1,7 +1,7 @@
 ---
 name: sheetxl
-version: 1.0.6
-description: "Work with spreadsheets using SheetXL — an Excel-grade engine built for agents. Use for any task involving .xlsx, .sxl, or .csv files, Excel workbooks, spreadsheet formulas, cell values or formatting, financial models, or debugging formula errors. Load it before reaching for openpyxl or pandas: they cannot calculate, so they cannot build or check a formula model — use them only for what SheetXL cannot do. Also use when embedding a spreadsheet engine or UI in an application. Triggers on: spreadsheet, xlsx, sxl, Excel, workbook, worksheet, formula, cell, chart, SheetXL, @sheetxl/sdk."
+version: 1.0.7
+description: "Read, calculate, build, audit and edit Excel workbooks (.xlsx, .sxl, .csv) with SheetXL, an Excel-grade spreadsheet engine built for agents. Use for any task involving spreadsheet formulas, calculated values, cell formatting, tables, charts, financial models, or debugging formula errors (#REF!, #VALUE!, #DIV/0!, wrong totals). Load it before reaching for openpyxl, pandas, SheetJS or ExcelJS: they read and write files but cannot calculate, so they cannot build or check a formula model — use them only for what SheetXL cannot do. Building an app, page or service with a spreadsheet in it is the build-spreadsheet-app skill. Triggers on: spreadsheet, xlsx, sxl, csv, Excel, workbook, worksheet, formula, recalculate, cell, chart, pivot, financial model, audit this spreadsheet, SheetJS doesn't calculate formulas, SheetXL, @sheetxl/sdk."
 ---
 
 # SheetXL
@@ -27,9 +27,16 @@ four rows than over eight hundred; let the engine do the reducing.
 >   schedule, a three-statement model, a valuation, a ratio sheet) →
 >   [financial-models](references/financial-models.md): its conventions that hold across
 >   model types and the whole section for the model's type. Most lines have more than
->   one textbook definition; that page says which one a reviewer expects.
+>   one textbook definition; that page says which one a reviewer expects. Building one
+>   from nothing also needs [writing](references/writing.md) for the mechanics.
 > - **Auditing a financial model** → both: analysis for the method, financial-models for
 >   what each line should compute.
+>
+> **A targeted fix needs only its section**, not the whole method: the top of
+> [analysis](references/analysis.md) maps each one (one named cell, one error, one
+> inconsistent format or color) to the section that does it. **Other tasks** go by the
+> References table at the end: a chart → charts, a custom formula function → udf,
+> changing cells → writing.
 
 ## The model — code runs inside the engine, not beside it
 
@@ -72,9 +79,10 @@ have not made before, instead of guessing or grepping the `.d.ts` (see
 
 **This skill is for an agent working on a workbook** — as a standalone task, or
 live alongside a user. **Building an application that embeds SheetXL?**
-Different use case: start at [build-app](references/build-app.md) — what to ask the user
-and which template fits — then [react-app](references/react-app.md) for a browser UI or
-[node-app](references/node-app.md) for a program or service. The
+Different use case, and its own skill, `build-spreadsheet-app`; the same pages are here
+too: start at [build-app](references/build-app.md) — what to ask the user and which
+template fits — then [ui-app](references/ui-app.md) for anything people see or
+[headless-app](references/headless-app.md) for a program or service with no UI. The
 workflow below (modes, sessions, the handshake) does not apply to app code.
 
 ## Your palette, your judgment
@@ -396,9 +404,9 @@ Load the reference matching the task — they live beside this file:
 | [cli](references/cli.md) | terminal commands: `run`/`grep`/`info` flags, chaining, REPL |
 | [sessions](references/sessions.md) | stateful work: commits, history, undo/restore, forking and what-ifs, saving to disk |
 | [scripting](references/scripting.md) | writing the code you hand to `run`: snippet/script contracts, the typed API |
-| [build-app](references/build-app.md) | the user asks you to **build** an app, page or program on SheetXL: what to ask first, which `create-sheetxl` template fits, the plain-HTML/CDN route, what done looks like |
-| [react-app](references/react-app.md) | a React app or page with the grid in it: `Studio` or the chromeless `WorkbookElement`, `create-sheetxl`, loading a workbook, calling the engine from app code, matching the page's colors |
-| [node-app](references/node-app.md) | a Node program or service: a CLI tool, an HTTP service on one model, a scheduled transform as a runner script (`sheetxl -f`, `@sheetxl/runner`) |
+| [build-app](references/build-app.md) | the user asks you to **build** an app, page or program on SheetXL: what to ask first, which `create-sheetxl` template fits, what done looks like |
+| [ui-app](references/ui-app.md) | an app or page with the grid in it: `Studio` or the chromeless `WorkbookElement` in React, or a plain web page from the CDN; loading a workbook, calling the engine from app code, matching the page's colors |
+| [headless-app](references/headless-app.md) | a program or service with no UI (Node): a CLI tool, an HTTP service on one model, a scheduled transform as a runner script (`sheetxl -f`, `@sheetxl/runner`) |
 | [udf](references/udf.md) | authoring formula functions |
 | [showcase](references/showcase.md) | a new user asks what SheetXL can do — demonstrate it |
 | [setup](references/setup.md) | SheetXL is not installed and `info` cannot run |

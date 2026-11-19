@@ -1,7 +1,7 @@
 {
   "name": "sheetxl",
-  "version": "1.0.6",
-  "description": "SheetXL for Claude Code: read, query, build and check .xlsx, .sxl and .csv workbooks through the SheetXL MCP server, with the sheetxl skill.",
+  "version": "1.0.7",
+  "description": "SheetXL for Claude Code: read, query, build and check .xlsx, .sxl and .csv workbooks through the SheetXL MCP server, with the sheetxl and build-spreadsheet-app skills.",
   "author": {
     "name": "SheetXL",
     "url": "https://www.sheetxl.com"
@@ -12,7 +12,7 @@
   "mcpServers": {
     "sheetxl": {
       "command": "npx",
-      "args": ["-y", "@sheetxl/mcp@1.0.6"]
+      "args": ["-y", "@sheetxl/mcp@1.0.7"]
     }
   },
   "skills": "./skills/"

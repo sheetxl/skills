@@ -5,7 +5,7 @@ description: "SheetXL read surface — the one map from subject to report: retur
 
 # Reading — Understand Before Acting
 
-> Part of the SheetXL skill suite. See the root `SKILL.md` for routing. Code below
+> Part of the SheetXL skills. Routing is the `sheetxl` skill's `SKILL.md`. Code below
 > is run-context code (`scripting.md`): snippet form — no `await`, and nothing to
 > import (the context is already in scope).
 > To change what you find, see `writing.md`; to audit or repair a workbook,
@@ -663,7 +663,7 @@ the JavaScript type carries the type: `"123"` is a string, `45292` a date serial
 The `'` prefix belongs to the *text* encoding — reports, grep, anything crossing a
 text boundary — where type would otherwise be lost, and it is what makes
 `'10/23/95` (text) distinguishable from `10/23/95` (a formatted number). The rule
-and both directions are the **Value encoding** section of the root `SKILL.md`;
+and both directions are the **Value encoding** section of the `sheetxl` skill's `SKILL.md`;
 per-cell writing is `writing.md`.
 
 ## Common patterns

@@ -5,7 +5,7 @@ description: "A user new to SheetXL asks what it can do — 'show me', 'tell me 
 
 # Showcase — Demonstrate, Don't Describe
 
-> Part of the SheetXL skill suite. See the root `SKILL.md` for routing.
+> Part of the SheetXL skills. Routing is the `sheetxl` skill's `SKILL.md`.
 
 When a user has just installed SheetXL and asks what it can do, **show real output,
 not a capabilities list**. The rule: **production, not fake** — real files, live
@@ -28,5 +28,5 @@ Keep it concrete: each "interesting thing" ends with an artifact or output the
 user can see, and an offer to go further with their own data.
 
 Follow-ups usually come as real tasks ("fix this", "analyze my sheet") — handle
-them like any other work from the root `SKILL.md`; this reference is only for the
+them like any other work from the `sheetxl` skill's `SKILL.md`; this reference is only for the
 show-me moment.

@@ -5,11 +5,11 @@ description: "SheetXL sheet interaction: reading and writing cell values, naviga
 
 # Writing — Sheet Interaction
 
-> Part of the SheetXL skill suite. See the root `SKILL.md` for routing. Code below
+> Part of the SheetXL skills. Routing is the `sheetxl` skill's `SKILL.md`. Code below
 > is run-context code (`scripting.md`): snippet form — no `await`, and nothing to
 > import (the context is already in scope); every statement auto-awaits. Files
 > open via the workbook argument and save via `--save` (CLI) or sessions
-> (MCP); application code goes through `node-app.md` or `react-app.md`. To understand structure
+> (MCP); application code goes through `headless-app.md` or `ui-app.md`. To understand structure
 > first, see `reading.md`.
 
 **In this file:** Coordinates: two notations · Values: two entry modes (write
@@ -51,7 +51,7 @@ keeps it. A formula keeps the cell's format either way.
 `0.42` with a percent format applied; the second stores `0.42` with no format.
 
 The full encoding contract — `'` text prefix, formulas, errors, round-trip — is
-the **Value encoding** section of the root `SKILL.md`. It is the same rule in
+the **Value encoding** section of the `sheetxl` skill's `SKILL.md`. It is the same rule in
 both directions and is not repeated here.
 
 ### Writing — ICellRange is the write surface
@@ -202,6 +202,19 @@ delete it and define it again. Reading a name (`getValue`, `getRanges`,
 `evaluate`) is in `reading.md`.
 
 ---
+
+## Sheets
+
+```typescript
+const sheets = wb.getWorksheets();
+sheets.add('Assumptions');                  // a new sheet, at the end
+sheets.add({ name: 'Summary', index: 0 });  // or at a position
+sheets.getByName('Sheet1')?.setName('Income Statement');
+wb.getWorksheet('Assumptions');             // by name; no argument is the first sheet
+```
+
+A blank workbook starts with one sheet, `Sheet1`: rename it rather than leaving it
+empty beside the ones you add.
 
 ## Navigation
 

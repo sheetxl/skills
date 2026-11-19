@@ -5,7 +5,7 @@ description: "SheetXL attended mode: working with a human who has the workbook o
 
 # Interactive — Working With a Human
 
-> Part of the SheetXL skill suite. See the root `SKILL.md` for routing;
+> Part of the SheetXL skills. Routing is the `sheetxl` skill's `SKILL.md`;
 > `sessions.md` for session mechanics and cell deep links.
 
 **In this file:** Attended-mode rules · The two human-loop tools — `highlight`

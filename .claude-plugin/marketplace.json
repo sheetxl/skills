@@ -8,9 +8,9 @@
   "plugins": [
     {
       "name": "sheetxl",
-      "description": "Read, query, build and check .xlsx, .sxl and .csv workbooks through the SheetXL MCP server, with the sheetxl skill.",
+      "description": "Read, query, build and check .xlsx, .sxl and .csv workbooks through the SheetXL MCP server, with the sheetxl and build-spreadsheet-app skills.",
       "source": "./plugins/sheetxl",
-      "version": "1.0.6",
+      "version": "1.0.7",
       "keywords": ["spreadsheet", "xlsx", "excel", "csv", "formulas", "mcp", "sheetxl"]
     }
   ]

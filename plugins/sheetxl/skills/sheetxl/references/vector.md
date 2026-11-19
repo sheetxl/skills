@@ -5,7 +5,7 @@ description: "The IRange vector surface — SheetXL's NumPy-shaped array API for
 
 # Vector — `IRange`, the Compute Surface
 
-> Part of the SheetXL skill suite. See the root `SKILL.md` for routing.
+> Part of the SheetXL skills. Routing is the `sheetxl` skill's `SKILL.md`.
 > For finding and profiling data, `reading.md`; for writing cells, `writing.md`;
 > for authoring formula functions, `udf.md` (whose bodies are `IRange` code).
 

@@ -5,7 +5,7 @@ description: "Writing SheetXL scripting code — the code you hand to `run` on e
 
 # Scripting — The Code You Hand to `run`
 
-> Part of the SheetXL skill suite. See the root `SKILL.md` for routing.
+> Part of the SheetXL skills. Routing is the `sheetxl` skill's `SKILL.md`.
 
 **In this file:** Scripts (default export) · Inline snippets (no default
 export) · The typed API is the map · When scripting cannot
@@ -192,7 +192,7 @@ formula functions see `udf.md`.
 
 Some tasks exceed the run context — e.g. operating on two workbooks at once.
 The next rung is a standalone program written against `@sheetxl/sdk` with real
-imports: see [node-app](node-app.md). Building the user's application is the same path.
+imports: see [headless-app](headless-app.md). Building the user's application is the same path.
 Under `run`, none of that applies — the workbook is handed to you, and a blank
 one is what you get by omitting the workbook argument; constructing your own is
 basically never right.

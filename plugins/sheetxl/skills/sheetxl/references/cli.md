@@ -5,7 +5,7 @@ description: "SheetXL terminal commands: executing SDK code against a workbook f
 
 # CLI — Terminal Commands
 
-> Part of the SheetXL skill suite. See the root `SKILL.md` for routing.
+> Part of the SheetXL skills. Routing is the `sheetxl` skill's `SKILL.md`.
 > How to *write* the code you run is `scripting.md`; this is how to invoke it.
 
 **In this file:** The grammar · compile — typecheck without running · Large
@@ -49,7 +49,7 @@ Prefer stdin (e.g. with a heredoc) over `-e` when the code is multi-line or
 shell quoting gets awkward. **On PowerShell, make it the default** — a
 single-quoted here-string piped in is literal, where `-e "…"` expands `$` and
 backticks and dies on `!` the moment an inner quote breaks the outer string
-(root `SKILL.md` has the form).
+(the `sheetxl` skill's `SKILL.md` has the form).
 
 Flags:
 
@@ -115,7 +115,7 @@ On MCP the same options are the `run` tool's `md` argument (`{ features: "fill,b
 `args.kv`) and `args._ === ['report.csv']`, with the untouched tail in `args.raw`. Reading
 `args.region` is the form that ports unchanged to MCP, where `args` is the caller's object.
 
-The root `SKILL.md` shows the basic forms; these are the ones it doesn't:
+The `sheetxl` skill's `SKILL.md` shows the basic forms; these are the ones it doesn't:
 
 ```bash
 sheetxl book.xlsx --out book.sxl                                    # convert format (no code)
@@ -187,7 +187,7 @@ right answer.
 
 There is no query command, because every result renders: name the subject and its
 report comes back. Which subject answers which question is `reading.md`; the
-order to take them in is the root `SKILL.md`. On a terminal that looks like:
+order to take them in is the `sheetxl` skill's `SKILL.md`. On a terminal that looks like:
 
 ```bash
 sheetxl -e "wb" book.xlsx                                             # the workbook report

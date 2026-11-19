@@ -5,10 +5,11 @@ description: "SheetXL charts: reading what a chart plots, inserting one, and edi
 
 # Charts — Read, Insert, Edit
 
-> Part of the SheetXL skill suite. See the root `SKILL.md` for routing. Code below
-> is run-context code (`scripting.md`): snippet form — no `await` needed on the
-> statements shown as plain calls (every statement auto-awaits); `getCharts().add`
-> returns a promise and is awaited like any other.
+> Part of the SheetXL skills. Routing is the `sheetxl` skill's `SKILL.md`. Code below
+> is run-context code (`scripting.md`): snippet form, so never write `await`. Every
+> statement is awaited for you, `getCharts().add` included: `const chart =
+> sheet.getCharts().add(…)` holds the chart, not a promise. In app code (your own
+> program, no `run`) the same calls need `await` where they return a promise.
 
 **In this file:** What a chart is here · Reading a chart · Inserting one ·
 Editing: the chart, its series, axes, elements · What is refused · Verify
@@ -35,7 +36,7 @@ lists each chart with `series`, `names`, `categories`; a chart's own report
 ```typescript
 const chart = sheet.getCharts().getItems()[0];   // or sheet.getCharts().getByName('Chart 2')
 chart.getChartType();                             // 'columnClustered', 'line', 'pie', 'combo', …
-chart.getChartTitle();                            // the text, a cell's text when it reads one
+chart.getChartTitle();                            // the text (or null); getTitle() is the title object to edit
 chart.getSeries().map(s => [s.getName(), s.getValuesFormula(), s.getCategoriesFormula()]);
 chart.getAxes().getItems().map(a => [a.getKind(), a.getTitle().getText(), a.getNumberFormat()]);
 chart.getLegend().getPosition();                  // 'bottom' | 'right' | 'top' | 'left' | 'corner'
@@ -48,8 +49,14 @@ states its table; its ranges are wherever the table last put its cells.
 ## Inserting a chart
 
 ```typescript
-const chart = await sheet.getCharts().add('A1:D7', { type: 'line' });
+const chart = sheet.getCharts().add('A1:D7', { type: 'line' });           // cells on this sheet
+const other = wb.getWorksheet('Summary').getCharts().add('Data!A1:B13', { type: 'columnClustered' });
 ```
+
+The chart goes on the sheet whose `getCharts()` you call; the cells can be on any
+sheet (a sheet-qualified address). To find the cells first, ask for them rather
+than reading the sheet: `grep` for a header ("Revenue"), or the sheet's regions
+(`reading.md`), then pass the block's address.
 
 The cells are read by Excel's rules: a header row names the series, the first
 column holds the categories, and the series are the columns unless there are more
@@ -59,8 +66,10 @@ Excel's gallery offers — `columnClustered`, `columnStacked`, `columnStacked100
 `bubble`, `radar…`, `stockVHLC`…, the 3-D forms (`3DColumnClustered`, `3DPie`…),
 the surfaces, and the 2016 types (`waterfall`, `treemap`, `sunburst`, `histogram`,
 `pareto`, `boxwhisker`, `funnel`, `regionMap`), which are made and saved as Excel
-makes them but drawn as a placeholder for now. The chart is 5 by 3 inches in the
-middle of the window unless `bounds` says otherwise.
+makes them but drawn as a placeholder for now. The chart is 5 by 3 inches (480 by
+288 px) in the middle of the window, or at the top left with no window (CLI, MCP),
+unless `bounds` says otherwise. `bounds` and `setBounds` take px: to put it beside its
+data, place it to the right of the block it charts.
 
 ## Editing
 

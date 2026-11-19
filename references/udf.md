@@ -5,7 +5,7 @@ description: "SheetXL formula and UDF authoring using @sheetxl/primitives — wr
 
 # UDF — Formula Function Authoring
 
-> Part of the SheetXL skill suite. See the root `SKILL.md` for routing.
+> Part of the SheetXL skills. Routing is the `sheetxl` skill's `SKILL.md`.
 
 **In this file:** The only import · Registering a UDF · Core invariants · The
 oracle is observable Excel behavior · Never assume scalar · Parameter types ·
@@ -52,8 +52,39 @@ export function DOUBLE(x: number): number { return x * 2; }
 wb.getWorksheet().evaluate('=DOUBLE(21)')   // 42
 ```
 
+`functions.add` registers for this session only: the function is gone when the
+workbook is reopened. **To keep a function with the workbook**, compile it into a
+module the workbook owns:
+
+```typescript
+const scripts = wb.getScripts();
+const module = scripts.createModule({ source: `
+/** Returns the value tripled. */
+export function TRIPLE(x: number): number { return x * 3; }
+` });
+scripts.addModule('Module1', module!, { replace: true });   // replace: re-running updates it
+```
+
+Where it survives:
+
+| Saved as | The function | Cells that use it |
+|---|---|---|
+| `.sxl` | saved with the workbook; works on reopen | recalculate normally |
+| `.xlsx` | **not saved** | keep their last value; recalculating gives `#NAME?` |
+| Opened in Excel | Excel has no way to run it | `#NAME?` on recalculation |
+
+So a workbook that must work in Excel cannot depend on a UDF: build the result from
+built-in formulas (often `LET`, `LAMBDA` or a lookup table) instead, and say why.
+When the user said "use it in our workbook", ask which: in SheetXL (a module, saved
+as `.sxl`) or in Excel (built-in formulas).
+
+**Data the function reads** (a rate table, tiers, thresholds) belongs in cells, not
+in the function: pass it as a range argument (`=DISCOUNTED_PRICE(B2, C2, Tiers!A2:B5)`)
+so a user can see and change it without editing code. Hardcode only true
+constants. If the user has not said where the data lives, ask.
+
 In application code, providers can also be passed at construction
-(`new Workbook({ functions: [...] })`) — see `node-app.md`. Either way the
+(`new Workbook({ functions: [...] })`) — see `headless-app.md`. Either way the
 authoring rules below are identical.
 
 ---
@@ -194,8 +225,10 @@ mutable sheet-level API used by the UI and `run` code — do not use it in formu
 
 **The `IRange` surface itself lives in [vector](vector.md)** — iteration with
 `entries()`, building output with `sparseBuilder()`, the `mask`/`choose`/`select`
-dispatch primitives, shape and coercion. Load it before writing a function body;
-everything there applies unchanged here, because a function body *is* vector code.
+dispatch primitives, shape and coercion. Load it before writing a body that takes
+or returns a range, a lookup-table argument included; a function of scalars only (`(price: number, rate: number) =>
+number`) needs none of it. Everything there applies unchanged here, because a
+function body *is* vector code.
 
 Two things are specific to formulas rather than to `IRange`:
 

@@ -1,3 +1,8 @@
+---
+name: financial-models
+description: "How the standard financial models are built: the lines a reviewer expects, their order, signs and units, per model type (bond accounting, real estate, company models: ratios, cost of equity, the valuation bridge, NM values). Load when building, completing or auditing a financial model or template. Triggers on: financial model, three-statement, forecast, schedule, valuation, DCF, WACC, cost of equity, ratios, amortization, bond, real estate, NPV, IRR."
+---
+
 # Financial models: how the standard ones are built
 
 When you build, complete or audit a financial model, its type has conventions a reviewer expects —
@@ -17,6 +22,32 @@ where its siblings keep it is the finding.
 | Acquisitions | [acquisitions](#acquisitions-consolidation-equity-method-purchase-price-and-accretion) | consolidation worksheet, NCI, goodwill, equity method, investment in affiliate, purchase price allocation, EPS accretion or dilution, synergies vs premium |
 | Real estate | [real estate](#real-estate-rent-roll-revenue-build-noi-and-valuation) | rent roll, units and SF, vacancy and loss-to-lease, EGI, NOI, cap rate, direct cap, reversion |
 | Corporate: three statements, ratios, valuation | [corporate models](#corporate-models-three-statements-ratios-and-valuation) | income statement, balance sheet, cash flow, ratio analysis, DCF, WACC, cost of equity, comps, EV/EBITDA, sensitivity table, FY columns |
+| Subscription (SaaS) company | [corporate models](#corporate-models-three-statements-ratios-and-valuation), then [subscription revenue](#subscription-saas-revenue-build) | MRR, ARR, churn, expansion, CAC, LTV, deferred revenue, billings, cohorts |
+
+**Building a model from nothing** (no workbook yet): there is no existing layout to follow, so lay
+it out the way a reviewer expects and keep to it:
+
+- **Sheets in reading order:** `Assumptions` (every input, nothing calculated), then the build-up
+  schedules (revenue, headcount and operating expenses, capex and depreciation, debt), then
+  `Income Statement`, `Balance Sheet`, `Cash Flow`, then `Checks`. One sheet per statement.
+- **One timeline.** Periods run across the columns, identically on every sheet (same first column,
+  same period count), with the dates in one header row the other sheets reference. Pick one
+  granularity: monthly suits a startup's first years, annual a mature company. A model that needs
+  both keeps the monthly columns and adds annual totals as a separate block to the right of them
+  (or an `Annual` sheet that sums them), never months and years mixed in one run.
+- **Inputs are typed once, on `Assumptions`, and colored blue; every other number is a formula**
+  that reads them (black), or reads another sheet (green). No number typed into a formula.
+- **The statements tie before you stop:** net income flows to retained earnings and the top of the
+  cash flow, ending cash on the cash flow equals cash on the balance sheet, and the balance check is 0
+  in every period ([checks](#checks)). Build the balance sheet's plug-free: cash is the cash flow's
+  ending cash, never a balancing figure.
+- **State the assumptions you invented** (growth, churn, prices) in the hand-back, and mark them on
+  `Assumptions` with a note, so the user replaces them rather than trusts them.
+
+For a fresh build read this list, the conventions below, and the model type's lines that build the
+statements; its ratio, valuation and audit lines matter only when the task asks for them. The
+mechanics (adding sheets, formats, font colors, filling a formula across, verifying) are
+[writing](writing.md).
 
 Conventions that hold across model types:
 
@@ -362,3 +393,25 @@ assets 2,000 opening and 2,200 closing. Debt / Equity = 500 / 1,250 = 0.40. Retu
 = 210 / 2,100 = 10.0%. CoE: 7% + 1.1 × 6% = 13.6%; with a 10% liquidity discount, 13.6% × 1.10 =
 14.96%, plus a 2% specific premium, 16.96%. EV 3,000, cash 140, other bank balances 60: equity value
 = 3,000 − 500 + 200 − 50 = 2,650.
+
+
+### Subscription (SaaS) revenue build
+
+A subscription company's revenue comes from a recurring-revenue roll-forward, not from units × price:
+
+- **ARR (or MRR) rolls forward:** ending = beginning + new + expansion − contraction − churned. Each
+  movement is its own row driven from `Assumptions`: new from new customers × starting price; churn
+  and contraction as rates × beginning ARR; expansion as a rate × beginning ARR.
+- **MRR = ARR / 12.** Monthly revenue is the month's MRR; a period's revenue is the sum of its months'
+  MRR, which is not the period's ending ARR. An annual model approximates revenue as the average of
+  beginning and ending ARR.
+- **Billings and deferred revenue:** customers who prepay annually are billed up front and the
+  revenue is recognized monthly. Deferred revenue rolls forward: ending = beginning + billings −
+  revenue recognized. It is a liability on the balance sheet, and its increase is a source of cash in
+  operating cash flow.
+- **Unit economics:** CAC = sales and marketing expense / new customers in the period. Gross margin
+  per customer = ARPA × gross margin %. LTV = gross margin per customer / churn rate (both monthly or
+  both annual). CAC payback in months = CAC / monthly gross margin per customer. Write them on their
+  own rows, not inside the statements.
+- **Churn is a rate on the beginning base,** monthly or annual; never mix the two. 2% monthly is
+  about 21.5% annual (1 − 0.98^12), not 24%.

@@ -1,12 +1,12 @@
 ---
-name: node-app
-description: "A Node program or service on the SheetXL SDK, and the engine-side setup every app shares: packages, entry setup (IOPlugin), reading and writing files in code, constructing a workbook; a command-line tool, an HTTP service that serves a workbook model, a scheduled job as a runner script (`sheetxl -f`, @sheetxl/runner); scaffolding with create-sheetxl. Use when writing the user's application code, or a standalone program outside `run`. Triggers on: Node, service, API, HTTP, express, Fastify, cron, job, pipeline, CLI tool, runner, -f, @sheetxl/runner, headless, server, @sheetxl/sdk, @sheetxl/io, import, WorkbookIO, IOPlugin, new Workbook, library."
+name: headless-app
+description: "A program, service or scheduled job with no UI on the SheetXL SDK (Node), and the engine-side setup every app shares, UI or not: packages, entry setup (IOPlugin), reading and writing files in code, constructing a workbook; a command-line tool, an HTTP service that serves a workbook model, a scheduled job as a runner script (`sheetxl -f`, @sheetxl/runner); scaffolding with create-sheetxl. Use when writing the user's application code, or a standalone program outside `run`. Triggers on: Node, service, API, HTTP, express, Fastify, cron, job, pipeline, CLI tool, runner, -f, @sheetxl/runner, headless, server, @sheetxl/sdk, @sheetxl/io, import, WorkbookIO, IOPlugin, new Workbook, library."
 ---
 
-# Node App — Programs and Services on the SDK
+# Headless App — Programs and Services on the SDK
 
-> Part of the SheetXL skill suite. See the root `SKILL.md` for routing. A browser
-> UI around the engine is [react-app](react-app.md); it imports the same packages
+> Part of the SheetXL skills. Which page to build from is the `build-spreadsheet-app` skill's `SKILL.md`, the same page as [build-app](build-app.md). A browser
+> UI around the engine is [ui-app](ui-app.md); it imports the same packages
 > and reads this file's §Engine for anything engine-side. Running one-off code
 > from a shell is [cli](cli.md), not this.
 
@@ -53,12 +53,12 @@ await WorkbookIO.write(wb, 'out.csv', { delimiter: '\t' });
 | `.csv` | CSV | Configurable delimiter |
 | `.json` | JSON | SheetXL array format |
 
-`.sxl` for working copies and pipelines; `.xlsx` when Excel opens the result (the
-root `SKILL.md` has the trade-off). A workbook from nothing is `new Workbook()`
+`.sxl` for working copies and pipelines; `.xlsx` when Excel or another tool opens
+the result. A workbook from nothing is `new Workbook()`
 (`import { Workbook } from '@sheetxl/sdk'`); `wb.getWorksheet()` is its first
 sheet. The shipped type definitions are the API surface:
-`node_modules/@sheetxl/sdk/types/index.d.ts`, searched with `api` as everywhere
-in this skill.
+`node_modules/@sheetxl/sdk/types/index.d.ts`. Look a name up with
+`npx sheetxl api <name>` (`api ICellRange` lists its members) rather than grepping them.
 
 ## 1. Start from the template when there is no project yet
 
@@ -96,6 +96,28 @@ npx sheetxl -f fill-report.ts template.xlsx --out report.xlsx -- --month 2026-11
 npx sheetxl -f normalize.ts -f summarize.ts import.xlsx --save      # chained, in order
 ```
 
+One invocation is one workbook. For a folder of files (a nightly import), loop in
+the shell or the scheduler; a `.csv` in and `--out` with `.xlsx` converts as it goes:
+
+```bash
+for f in /incoming/*.csv; do
+  npx sheetxl -f format-report.ts "$f" --out "/reports/$(basename "$f" .csv).xlsx"
+done
+```
+
+A CSV arrives as values on one sheet; the script adds what the report needs (a
+header style, number formats, a totals row of formulas). Writing those is the
+[writing](writing.md): styling under §Styling, a formula across a row under
+§Values → Writing. The rows a CSV filled are the used range, and the totals go in
+the row after it:
+
+```ts
+const used = wb.getWorksheet().getUsedRange()!;
+const totals = used.getRowAfter();
+totals.getColumnAt(0).setValue('Total');
+totals.getColumnAt(1).setValue(`=SUM(B2:B${used.getRowEnd() + 1})`);   // getRowEnd is 0-based
+```
+
 From your own Node code, `@sheetxl/runner` runs the same file against a workbook
 you hold: `Runner.run(wb, args, { target: 'fill-report.ts' })` returns what the
 script returned. The contract (snippet versus script, the five context names, no
@@ -106,7 +128,14 @@ cron line, a Dockerfile, CI, and the agent's own `run`, unchanged.
 ## 3. A service: one model, many requests
 
 For a pricing model, a rating engine or a calculator behind an HTTP endpoint,
-load the workbook once and serve requests against it:
+load the workbook once and serve requests against it. Start from the §1 template
+(or the user's existing server) and put this in its entry file.
+
+**Find the inputs and outputs first.** The endpoint writes the model's input cells
+and reads its result cells, so name them before wiring anything: read the workbook
+([reading](reading.md); its labels say which cells are rates, volumes, the quote)
+and confirm the list with the user. Prefer defined names (`Volume`, `Quote`) over
+addresses when the model has them; they survive rows being inserted.
 
 ```ts
 import { LicenseManager, WorkbookIO, type IWorkbook } from '@sheetxl/sdk';
@@ -116,6 +145,7 @@ await LicenseManager.setLicenseKey(process.env.SHEETXL_LICENSE_KEY!);
 await WorkbookIO.install(IOPlugin);
 const model: IWorkbook = (await WorkbookIO.read('pricing-model.xlsx'))!;
 
+// `app` is the service's HTTP framework (Express here; Fastify, Hono or node:http alike)
 app.post('/quote', async (req, res) => {
   model.getRange('Inputs!B2').setValue(req.body.volume);
   res.json({ quote: model.getRange('Quote!B10').getValue() });

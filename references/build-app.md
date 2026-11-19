@@ -1,13 +1,14 @@
 ---
 name: build-app
-description: "Starting point when the user asks for an app, page or program built on SheetXL: what to ask before building, which create-sheetxl template fits the goal (full spreadsheet app, a grid inside an app, a spreadsheet on a plain web page, a Node program), the plain-HTML and CDN route, and what done looks like. Use first, before react-app or node-app, whenever the request is to build something rather than to work on a workbook. Triggers on: build me, spreadsheet app, embed a spreadsheet, add a spreadsheet to my site, web page, HTML, CDN, script tag, vanilla, @sheetxl/studio-vanilla, template, scaffold, create-sheetxl, automate spreadsheets."
+description: "Build an app, web page, program or service that has a spreadsheet in it or works with spreadsheets, on SheetXL: a full Excel-like spreadsheet app, a spreadsheet grid embedded in an existing React app or site, a spreadsheet on a plain HTML page from a CDN script tag, or a headless Node program, API or scheduled job that reads, calculates or writes .xlsx files. What to ask the user first, which create-sheetxl template fits, and what done looks like. Use when the request is to build or embed something, not to work on one workbook. Triggers on: build me an app, spreadsheet app, Excel-like app, embed a spreadsheet, spreadsheet component, React spreadsheet, data grid with formulas, add a spreadsheet to my site, web page, HTML, CDN, script tag, Vue, Svelte, Node service, API that calculates a workbook, automate spreadsheets, scaffold, template, create-sheetxl, @sheetxl/sdk, @sheetxl/studio-mui."
 ---
 
 # Build an App — Ask, Pick, Build, Show
 
-> Part of the SheetXL skill suite. See the root `SKILL.md` for routing. This file
-> decides *what* to build; [react-app](react-app.md) and [node-app](node-app.md)
-> hold the *how*.
+> This file decides *what* to build; [ui-app](ui-app.md) (anything people see) and
+> [headless-app](headless-app.md) (anything without a UI) hold the *how*. Working on
+> a workbook itself, rather than building something around one, is the `sheetxl`
+> skill.
 
 ## 1. Look before you ask
 
@@ -18,6 +19,11 @@ Read the working folder first. It answers most questions for free:
 - **Empty folder, or no project:** you are scaffolding one (§3).
 - **Spreadsheet files here** (`.xlsx`, `.csv`, `.sxl`): likely the data the app is
   for. Name them in your first question.
+
+**Asked what it would take, not to build it** ("how would we switch to…", "what's
+involved in…"): answer with the plan instead of building. Name the route from §3,
+the packages, what changes in their code and what stays, and the open decisions
+(§2's questions); then offer to build it.
 
 ## 2. Ask, briefly
 
@@ -31,22 +37,38 @@ the folder did not already answer. Then build. Do not interview in rounds.
 3. **What data does it start with?** One of their files, a workbook you build, or
    blank.
 
+When more than one person will use it ("our team", "our customers"), the third
+question becomes: **where are workbooks kept, and do two people edit the same one
+at once?** SheetXL runs in each user's browser and has no built-in shared editing,
+so storage, access and conflicts are the app's ([ui-app](ui-app.md) §3, "Several
+people, one workbook"). "Like Google Sheets" usually means live co-editing: say
+plainly that the app will not have it, and what it will have instead.
+
+For a service or job, the third question is **which cells are the inputs and which
+are the outputs**. Find them in the workbook yourself first (its labels say most of
+it; [reading](reading.md) reads a workbook's structure in one call) and ask only to
+confirm.
+
 When the user says "you decide" or does not answer one, pick the default in §3 and
-say which you picked.
+say which you picked. When the request already answers all three, ask nothing.
 
 ## 3. Pick the starting point
 
-| The user wants | Start from | Then read |
-|---|---|---|
-| A full spreadsheet app: toolbar, formula bar, menus, dialogs | `react-studio-mui` | [react-app](react-app.md) |
-| A grid inside their own app or design, with their own buttons around it | `react-chromeless` | [react-app](react-app.md) |
-| A spreadsheet on a web page that has no build step | `vanilla-cdn`, or the script tag in §4 | §4 |
-| A spreadsheet in a non-React bundled app (Vue, Svelte, plain TypeScript) | `vanilla` | §4 |
-| A program, service or scheduled job with no UI | `node` | [node-app](node-app.md) |
-| A one-off change to some files, not a program | no app | [cli](cli.md) |
+| The user wants | New project: template | Existing project: install | Then read |
+|---|---|---|---|
+| A full spreadsheet app: toolbar, formula bar, menus, dialogs | `react-studio-mui` | `@sheetxl/studio-mui` and its peers | [ui-app](ui-app.md) §1 new, §2 existing |
+| A grid inside their own app or design, with their own buttons around it | `react-chromeless` | `@sheetxl/react` `@sheetxl/sdk` | [ui-app](ui-app.md) §1 new, §2 existing |
+| A spreadsheet on a web page that has no build step | `vanilla-cdn` | nothing: a script tag | [ui-app](ui-app.md) §6 |
+| A spreadsheet in a non-React bundled app (Vue, Svelte, plain TypeScript) | `vanilla` | `@sheetxl/studio-vanilla` | [ui-app](ui-app.md) §6 |
+| A program, service or scheduled job with no UI | `node` | `@sheetxl/sdk` `@sheetxl/io` | [headless-app](headless-app.md) |
+| A one-off change to some files, not a program | no app | the `sheetxl` CLI | [cli](cli.md) |
 
-Defaults when the goal is open: **`react-studio-mui`** for anything with a UI,
-**`node`** for anything without one.
+"Full app" or "grid inside their design" when the request does not say: see
+[ui-app](ui-app.md) §2, "Which one".
+
+Defaults when the goal is open: a new app with a UI starts from
+**`react-studio-mui`**; a spreadsheet added to a page an existing app already designs is
+**`WorkbookElement`** (`react-chromeless`); anything without a UI is **`node`**.
 
 Scaffold with the template named, so nothing prompts:
 
@@ -55,42 +77,10 @@ npm create sheetxl@latest my-app -- --template react-studio-mui
 ```
 
 Use `.` as the name to scaffold into the current (empty) folder. In an existing
-project, do not scaffold: install the package the template would have used and
-follow the reference.
+project, do not scaffold: install the packages in the table's "Existing project"
+column and follow the reference.
 
-## 4. A plain web page (no React in the user's code)
-
-`@sheetxl/studio-vanilla` is the full Studio UI behind one call. React ships
-inside it; the page needs none.
-
-**Script tag, no JavaScript.** A sized `<div>` and the loader:
-
-```html
-<div id="sheetxl" style="height: 600px; width: 100%;"></div>
-<script
-  src="https://cdn.jsdelivr.net/npm/@sheetxl/studio-vanilla@latest/cdn/loader.js"
-  data-target="#sheetxl"
-  defer>
-</script>
-```
-
-Options are `data-*` attributes in kebab-case (`data-auto-focus="true"` becomes
-`autoFocus`). Values arrive as strings and any present value is truthy; leave an
-attribute out to turn it off.
-
-**From JavaScript**, with a bundler (`npm install @sheetxl/studio-vanilla`) or
-straight from the CDN (`…/studio-vanilla@latest/cdn/index.js`):
-
-```js
-import { SheetXL } from '@sheetxl/studio-vanilla';
-
-const studio = await SheetXL.attachStudio('#sheetxl', { /* the same props Studio takes */ });
-```
-
-The container needs a height; the grid fills it. Props, loading a workbook and
-theming are the `Studio` ones in [react-app](react-app.md).
-
-## 5. Build what they asked for, then show it
+## 4. Build what they asked for, then show it
 
 A scaffold is not the deliverable. After it runs:
 

@@ -5,7 +5,7 @@ description: "SheetXL sessions — stateful spreadsheet work: workbooks kept in 
 
 # Sessions — Stateful Spreadsheet Work
 
-> Part of the SheetXL skill suite. See the root `SKILL.md` for routing;
+> Part of the SheetXL skills. Routing is the `sheetxl` skill's `SKILL.md`;
 > `interactive.md` for the human-loop tools (`highlight`, `prompt`).
 
 **In this file:** Start here · Tools · Discovery · History — `list_commits` ·
@@ -30,7 +30,7 @@ tools.
    read `.xlsx` or `.sxl` from disk — they are binary. (`.csv` is plain text:
    any tool may handle it; come through these tools when formulas, types, or
    structure matter.)
-2. **Know your sessions.** The `info` handshake (root `SKILL.md`) already seeds
+2. **Know your sessions.** The `info` handshake (the `sheetxl` skill's `SKILL.md`) already seeds
    the open sessions and connected users; call `list_sessions` to refresh that
    view at any point. Every tool requires a `session_id` — pass the id of the
    session you mean; there is no default, and a call without one is refused
@@ -54,7 +54,7 @@ tools.
 | `session_close` | Dispose a sandbox you no longer need (sandboxes only). |
 | `session_revert` | Undo a specific change by its `commitId`. |
 | `session_restore` | Move a session back to a previous commit point. |
-| `session_save` | Write a session to disk. No `path` (or its own file) saves back to the file it was opened from; another `path` is a Save As, which a sandbox then belongs to. `overwrite` is needed only to replace a different existing file. Relative paths resolve against the workspace; format guidance is in the root `SKILL.md`. |
+| `session_save` | Write a session to disk. No `path` (or its own file) saves back to the file it was opened from; another `path` is a Save As, which a sandbox then belongs to. `overwrite` is needed only to replace a different existing file. Relative paths resolve against the workspace; format guidance is in the `sheetxl` skill's `SKILL.md`. |
 | `highlight` / `prompt` | Human-loop tools — see `interactive.md`. |
 
 The feature vocabulary — what `getRegions` / `getCounts` take inside `run` — is
@@ -210,7 +210,7 @@ no grid to reveal. Prefer linking the specific cells you reference in prose
   (e.g. `=SUM(A1:A10)`) or use the SDK via `run`, and let the engine evaluate.
 - Use cell values to understand what the user sees and to write back what the
   user would type. The value-encoding contract (the `'` prefix and friends) is
-  the root `SKILL.md` — it applies to every tool input and response carrying
+  the `sheetxl` skill's `SKILL.md` — it applies to every tool input and response carrying
   cell data.
 
 ## Reading a session
@@ -218,8 +218,8 @@ no grid to reveal. Prefer linking the specific cells you reference in prose
 Reading routes through two tools. `grep` takes an **A1-scoped** pattern search
 (a range, `Sheet1!A1:D9`, or a bare sheet name for its used range); everything
 else is `run`, where naming a subject in code *is* how you describe it. Which
-subject answers which question is `reading.md`; the order to take them in is the
-root `SKILL.md`.
+subject answers which question is `reading.md`; the order to take them in is
+the `sheetxl` skill's `SKILL.md`.
 
 Every response is self-describing — it names what it does *not* contain
 (truncated, or a different lens available), so the next call is always obvious.
